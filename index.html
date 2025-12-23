@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Wordle Vô Cực</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+    
+    <div id="bg-wrap">
+        <img id="bg-image" src="background.gif" alt="bg">
+        <video id="bg-video" loop muted autoplay playsinline style="display: none;"></video>
+        <div id="bg-overlay"></div>
+    </div>
+
+    <audio id="sfx-click" src="click.mp3" preload="auto"></audio>
+    
+    <audio id="bg-music" src="music.mp3" loop></audio>
+
+    <div id="toast-container"></div>
+
+    <div class="settings-corner">
+        <label for="upload-bg" class="icon-btn small-btn" title="Đổi hình nền">🖼️</label>
+        <input type="file" id="upload-bg" accept="image/*,video/*" hidden onchange="changeBackground(this)">
+        
+        <button class="icon-btn small-btn" onclick="toggleMusic()" title="Bật/Tắt Nhạc">🎵</button>
+        <button class="icon-btn small-btn" onclick="toggleSFX()" title="Bật/Tắt Âm Click">🔊</button>
+    </div>
+
+    <div id="main-menu" class="screen">
+        <div class="menu-content glass-panel">
+            <h1 class="game-title">WORDLE <br><span style="color:var(--green)">HCMUS</span></h1>
+            
+            <div class="menu-buttons">
+                <button class="mc-btn" onclick="handlePlayClick()">CHƠI NGAY</button>
+                <button class="mc-btn secondary" onclick="toggleModeFromMenu()">
+                    <span class="btn-text" id="menu-mode-text">CHẾ ĐỘ: TIẾNG VIỆT</span>
+                </button>
+                <div class="row-btns">
+                    <button class="mc-btn small" onclick="openProfile()">HỒ SƠ</button>
+                    <button class="mc-btn small" onclick="showStats()">THỐNG KÊ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="login-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content mc-modal">
+            <h2>DANH XƯNG</h2>
+            <input type="text" id="username-input" placeholder="Nhập tên bạn..." maxlength="12" autocomplete="off">
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button class="mc-btn" onclick="saveUsernameAndPlay()">XÁC NHẬN</button>
+                <button class="mc-btn secondary" onclick="closeLoginModal()">HỦY</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container glass-panel" id="game-container" style="display: none;">
+        <header>
+            <div class="header-left">
+                <button class="icon-btn" onclick="backToMenu()">🏠</button>
+            </div>
+            <div class="logo">WORDLE <span id="mode-badge">VN</span></div>
+            <div class="header-right">
+                <button class="icon-btn" onclick="getHint()">💡</button>
+                <button class="icon-btn" onclick="autoPlayAI()">🤖</button>
+            </div>
+        </header>
+
+        <div id="game-screen">
+            <div id="game-board"></div>
+            <div id="keyboard-container"></div>
+        </div>
+    </div>
+
+    <div id="info-modal-overlay" class="modal-overlay" style="display: none;">
+        <div class="modal-content glass-panel zoom-in">
+            <span class="close-btn" onclick="closeInfoModal()">&times;</span>
+            <div id="info-modal-body"></div>
+        </div>
+    </div>
+
+    <div id="game-over-panel" class="hidden glass-panel">
+        <h2 id="result-title">CHIẾN THẮNG!</h2>
+        <p id="result-answer">Đáp án: ...</p>
+        <button class="restart-btn mc-btn" onclick="restartGame()">CHƠI LẠI</button>
+        <button class="mc-btn secondary" onclick="backToMenu()" style="margin-top:10px;">THOÁT</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
